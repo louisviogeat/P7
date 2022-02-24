@@ -10,7 +10,7 @@ exports.createPost = (userId, post) => {
     })
         .then((post) => {
             console.log(">> Created post: " + JSON.stringify(post, null, 4));
-            return comment;
+            return post;
         })
         .catch((err) => {
             console.log(">> Error while creating post: ", err);

@@ -1,6 +1,5 @@
-const { DataTypes } = require("sequelize/types");
 
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     const LikeOrDislike = sequelize.define("likeOrDislike", {
         isALike: {
             type: DataTypes.BOOLEAN

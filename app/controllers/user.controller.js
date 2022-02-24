@@ -18,11 +18,15 @@ exports.create = (user) => {
 };
 
 // Retrieve all Tutorials from the database.
-exports.findAll = (req, res) => {
-
+exports.findAll = () => {
+    return User.findAll({
+        include: ["posts"]
+    }).then((users) => {
+        return users;
+    });
 };
 // Find a single Tutorial with an id
-exports.findOne = (userId) => {
+exports.findUserById = (userId) => {
     return User.findByPk(userId, { include: ["posts"] })
         .then((user) => {
             return user;
