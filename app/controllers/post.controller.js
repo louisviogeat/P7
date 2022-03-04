@@ -14,7 +14,7 @@ exports.createPost = (req, res) => {
         userId: req.params.id,
     })
         .then((post) => {
-            res.send(post);
+            res.status(201).send(post);
             return post;
         })
         .catch((err) => {
@@ -30,7 +30,7 @@ exports.findAll = (req, res) => {
     return Post.findAll({
         include: ["comments", "user"]
     }).then((posts) => {
-        res.send(posts);
+        res.status(201).send(posts);
         return posts;
     }).catch(err => {
         res.status(500).send({
@@ -45,7 +45,7 @@ exports.findPostById = (req, res) => {
     return Post.findByPk(id, { include: ["comments"] })
         .then((post) => {
             if (post) {
-                res.send(post);
+                res.status(201).send(post);
                 return post;
             } else {
                 res.status(404).send({

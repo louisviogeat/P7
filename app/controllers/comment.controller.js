@@ -9,22 +9,14 @@ exports.createComment = (req, res) => {
         });
         return
     }
-    const userId = req.params.userId;
-    const postId = req.params.postId;
-    const comment = {
+    return Comment.create({
         text: req.body.text,
         file: req.body.file,
-        userId: userId,
-        postId: postId
-    }
-    return Comment.create({
-        text: comment.text,
-        file: comment.file,
-        userId: userId,
-        postId: postId
+        userId: req.params.userId,
+        postId: req.params.postId
     })
         .then((comment) => {
-            res.send(comment);
+            res.status(201).send(comment);
             return comment;
         })
         .catch((err) => {
@@ -35,6 +27,39 @@ exports.createComment = (req, res) => {
             console.log(">> Error while creating comment: ", err);
         });
 };
+
+exports.findAll = (req, res) => {
+    return Comment.findAll({
+        include: ["post", "user"]
+    }).then((comments) => {
+        res.status(201).send(comments);
+        return comments;
+    }).catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving comments."
+        });
+    });
+};
+
+exports.updateComment = (req, res) => {
+    //findPostById const userConnected 
+    //const userIdConnected = req.body.userId;
+    //const userOfPost = 
+
+    Comment.update(req.body, {
+        where: { id: req.params.id },
+    }
+    ).then(() => res.status(200).json({ message: 'Commentaire modifié' })
+    ).catch(error => res.status(400).json({ error }));
+};
+
+exports.delete = (req, res) => {
+    Comment.destroy({
+        where: { id: req.params.id }
+    }).then(() => res.status(200).json({ message: 'Commentaire supprimé' }))
+        .catch(error => res.status(400).json({ error }));
+}
 
 // retirer commentaire
 // update
