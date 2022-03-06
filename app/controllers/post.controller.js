@@ -8,9 +8,10 @@ exports.createPost = (req, res) => {
         });
         return
     }
+
     return Post.create({
         text: req.body.text,
-        file: req.body.file,
+        file: `${req.protocol}://${req.get('host')}/files/${req.file.filename}`,
         userId: req.params.id,
     })
         .then((post) => {

@@ -42,6 +42,27 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findCommentById = (req, res) => {
+    const id = req.params.id;
+    return Comment.findByPk(id, { include: ["user"] })
+        .then((comment) => {
+            if (comment) {
+                res.status(201).send(comment);
+                return comment;
+            } else {
+                res.status(404).send({
+                    message: `Cannot find post with id=${id}.`
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error retrieving Post with id=" + id
+            });
+            console.log(">> Error while finding post: ", err);
+        });
+};
+
 exports.updateComment = (req, res) => {
     //findPostById const userConnected 
     //const userIdConnected = req.body.userId;
@@ -61,9 +82,8 @@ exports.delete = (req, res) => {
         .catch(error => res.status(400).json({ error }));
 }
 
-// retirer commentaire
-// update
+
+
 // findByID
-// findAll
 
 

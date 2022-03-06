@@ -35,8 +35,10 @@ exports.signup = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    User.findOne({ email: req.body.email })
+    console.log(req.body);
+    User.findOne({ where: { email: req.body.email } })
         .then(user => {
+            console.log('user', user);
             if (!user) {
                 return res.status(401).json({ error: 'Utilisateur non trouvé' });
             }
@@ -97,6 +99,9 @@ exports.findUserById = (req, res) => {
 };
 
 exports.deleteUser = (req, res) => {
-    const id = req.params.id;
+    User.destroy({
+        where: { id: req.params.id }
+    }).then(() => res.status(200).json({ message: 'User supprimé' }
+    )).catch(error => res.status(400).json({ error }));
 
 }
